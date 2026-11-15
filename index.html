@@ -1,0 +1,2089 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071321">
+<meta name="description" content="YouNuct - Discover and watch videos.">
+<title>YouNuct | Discover Beyond</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #071321;
+  --surface: #0d1d2d;
+  --surface2: #12283d;
+  --surface3: #18364f;
+  --cyan: #20d9f5;
+  --blue: #2785ff;
+  --text: #f4f9ff;
+  --muted: #91a9bf;
+  --border: rgba(110,190,230,.13);
+  --sidebar: 250px;
+  --header: 76px;
+  --radius: 16px;
+  --shadow: 0 12px 35px rgba(0,0,0,.24);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* HEADER */
+
+.header {
+  height: var(--header);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  background: rgba(7,19,33,.94);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 235px;
+}
+
+.logo {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 29px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  background: linear-gradient(110deg,#2ce8f8,#2785ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo-dot {
+  color: white;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 12px;
+  font-size: 19px;
+}
+
+.icon-button:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.search-wrap {
+  width: min(560px, 45vw);
+  position: relative;
+}
+
+.search-box {
+  height: 46px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: 1px solid #21435d;
+  border-radius: 30px;
+  background: #10243a;
+  overflow: hidden;
+  transition: .2s;
+}
+
+.search-box:focus-within {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(32,217,245,.08);
+}
+
+.search-icon {
+  color: var(--muted);
+  padding-left: 17px;
+  font-size: 17px;
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 12px;
+  color: white;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-box input::placeholder {
+  color: #829bb1;
+}
+
+.search-submit {
+  height: 100%;
+  padding: 0 23px;
+  border: none;
+  color: #041321;
+  background: linear-gradient(110deg,var(--cyan),#39aaff);
+  font-weight: 800;
+}
+
+.search-submit:hover {
+  filter: brightness(1.1);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg,var(--cyan),var(--blue));
+  color: #061321;
+  font-weight: 800;
+  border: none;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  position: fixed;
+  top: var(--header);
+  bottom: 0;
+  left: 0;
+  width: var(--sidebar);
+  padding: 22px 15px;
+  background: #091827;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  z-index: 80;
+  transition: transform .25s;
+}
+
+.nav-label {
+  color: #607e98;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 13px 13px 9px;
+  text-transform: uppercase;
+}
+
+.nav-link {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 13px;
+  border-radius: 11px;
+  margin: 3px 0;
+  background: transparent;
+  border: none;
+  color: #a8bfd3;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.nav-link:hover {
+  background: #122c43;
+  color: white;
+}
+
+.nav-link.active {
+  background: linear-gradient(100deg,rgba(32,217,245,.16),rgba(39,133,255,.12));
+  color: var(--cyan);
+  border-left: 3px solid var(--cyan);
+}
+
+.nav-icon {
+  width: 22px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 17px 7px;
+}
+
+.sidebar-note {
+  background: linear-gradient(140deg,#103d5b,#102b54);
+  border: 1px solid rgba(32,217,245,.17);
+  padding: 17px;
+  border-radius: 14px;
+  margin-top: 22px;
+}
+
+.sidebar-note h3 {
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.sidebar-note p {
+  font-size: 12px;
+  color: #a5c6dd;
+  line-height: 1.6;
+}
+
+/* MAIN */
+
+.main {
+  margin-left: var(--sidebar);
+  padding: calc(var(--header) + 28px) 32px 50px;
+  min-height: 100vh;
+  transition: margin .25s;
+}
+
+.main.expanded {
+  margin-left: 0;
+}
+
+.content {
+  max-width: 1550px;
+  margin: auto;
+}
+
+/* HERO */
+
+.hero {
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  padding: 43px;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 82% 15%,rgba(32,217,245,.3),transparent 30%),
+    radial-gradient(circle at 100% 100%,rgba(39,133,255,.35),transparent 40%),
+    linear-gradient(115deg,#0b3556,#104b81 65%,#082d55);
+  border: 1px solid rgba(58,190,255,.2);
+  box-shadow: var(--shadow);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  right: 5%;
+  top: -100px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 35px rgba(255,255,255,.025),
+    0 0 0 75px rgba(255,255,255,.02);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 30px;
+  background: rgba(5,22,42,.45);
+  border: 1px solid rgba(100,220,255,.23);
+  color: #80efff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 19px;
+}
+
+.hero h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(35px,5vw,57px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+
+.hero h1 span {
+  background: linear-gradient(100deg,#4df2ff,#74aaff);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero p {
+  color: #c0dff4;
+  line-height: 1.7;
+  font-size: 15px;
+  max-width: 470px;
+}
+
+.hero-visual {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 190px;
+  height: 190px;
+  border-radius: 35px;
+  display: grid;
+  place-items: center;
+  font-size: 95px;
+  color: #b5faff;
+  background: linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.12));
+  border: 1px solid rgba(255,255,255,.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  transform: translateY(-50%) rotate(8deg);
+}
+
+/* CATEGORY BAR */
+
+.category-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 27px 0 24px;
+  scrollbar-width: none;
+}
+
+.category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.category-chip {
+  flex-shrink: 0;
+  padding: 10px 19px;
+  border-radius: 30px;
+  background: #10253a;
+  border: 1px solid #1d3d58;
+  color: #a9c4d9;
+  font-size: 13px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.category-chip:hover,
+.category-chip.active {
+  color: #061321;
+  background: linear-gradient(110deg,var(--cyan),#49a7ff);
+  border-color: transparent;
+}
+
+/* SECTION HEADINGS */
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 24px 0 20px;
+}
+
+.section-heading h2 {
+  font-family: "Space Grotesk",sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.section-action {
+  color: var(--cyan);
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* VIDEO GRID */
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 24px 19px;
+}
+
+.video-card {
+  min-width: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d2032;
+  border: 1px solid var(--border);
+  transition: transform .2s,border-color .2s;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(32,217,245,.5);
+}
+
+.thumbnail-wrap {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #132b40;
+  aspect-ratio: 16/9;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s;
+}
+
+.video-card:hover .thumbnail {
+  transform: scale(1.04);
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,.15);
+  opacity: 0;
+  transition: .2s;
+}
+
+.video-card:hover .thumbnail-overlay {
+  opacity: 1;
+}
+
+.play-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: rgba(16,179,225,.9);
+  font-size: 20px;
+}
+
+.card-info {
+  display: flex;
+  gap: 11px;
+  padding: 13px 12px 14px;
+}
+
+.channel-avatar {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#13d9f5,#286bff);
+  color: #071321;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.card-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.55;
+  margin-bottom: 7px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-channel {
+  font-size: 11px;
+  color: #90a9be;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 13px;
+}
+
+.card-button {
+  flex: 1;
+  padding: 9px 6px;
+  border: 1px solid #23445d;
+  border-radius: 8px;
+  background: #122c43;
+  color: #c6e5f5;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.card-button:hover {
+  background: #164b71;
+  border-color: var(--cyan);
+}
+
+.card-button.primary {
+  background: linear-gradient(100deg,#087fae,#1468c6);
+  border: none;
+  color: white;
+}
+
+/* PLAYER */
+
+.player-section {
+  display: none;
+  background: #0c2033;
+  border: 1px solid #1c5575;
+  border-radius: 18px;
+  padding: 19px;
+  margin: 26px 0;
+  box-shadow: var(--shadow);
+}
+
+.player-section.visible {
+  display: block;
+  animation: fadeUp .3s ease;
+}
+
+.player-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.player-top h2 {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.close-player {
+  border: 1px solid #284e69;
+  border-radius: 9px;
+  background: #142f47;
+  color: white;
+  padding: 9px 13px;
+}
+
+.player-frame-wrap {
+  width: 100%;
+  max-width: 1050px;
+  margin: auto;
+  aspect-ratio: 16/9;
+  background: black;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.player-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.player-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.player-details p {
+  color: #9bb9cf;
+  font-size: 13px;
+}
+
+.player-controls {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.player-action {
+  padding: 10px 15px;
+  border-radius: 9px;
+  background: #143954;
+  border: 1px solid #285674;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.player-action:hover {
+  border-color: var(--cyan);
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+  display: none;
+  text-align: center;
+  padding: 65px 20px;
+  border: 1px dashed #28506b;
+  border-radius: 17px;
+  background: rgba(15,38,57,.45);
+}
+
+.empty-state.visible {
+  display: block;
+}
+
+.empty-icon {
+  font-size: 45px;
+  margin-bottom: 15px;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  margin-bottom: 9px;
+}
+
+.empty-state p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* STATUS */
+
+.status {
+  min-height: 25px;
+  color: #8ebbd4;
+  font-size: 13px;
+  margin: 10px 0 18px;
+}
+
+.loader {
+  display: none;
+  width: 27px;
+  height: 27px;
+  border: 3px solid #21405b;
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 20px auto;
+}
+
+.loader.visible {
+  display: block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* FAVORITES */
+
+.favorite-button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  background: #152c40;
+  border: 1px solid #29485e;
+  border-radius: 9px;
+  color: #91aec5;
+}
+
+.favorite-button.saved {
+  color: #20d9f5;
+  border-color: var(--cyan);
+}
+
+/* FOOTER */
+
+.footer {
+  border-top: 1px solid var(--border);
+  margin-top: 65px;
+  padding: 30px 0 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-family: "Space Grotesk",sans-serif;
+  color: var(--cyan);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.footer p {
+  color: #718da4;
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 7px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+  color: #a0b7ca;
+  font-size: 12px;
+}
+
+.footer-links button {
+  background: none;
+  border: none;
+  color: inherit;
+}
+
+/* MOBILE */
+
+.mobile-bottom {
+  display: none;
+}
+
+.overlay {
+  display: none;
+}
+
+@media(max-width:1200px) {
+  .video-grid {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+  }
+
+  .hero-visual {
+    right: 5%;
+    width: 145px;
+    height: 145px;
+    font-size: 70px;
+  }
+}
+
+@media(max-width:900px) {
+  :root {
+    --sidebar: 230px;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .main {
+    padding-left: 23px;
+    padding-right: 23px;
+  }
+
+  .hero {
+    padding: 35px;
+  }
+
+  .hero-visual {
+    opacity: .3;
+  }
+}
+
+@media(max-width:650px) {
+  :root {
+    --header: 65px;
+  }
+
+  .header {
+    padding: 0 13px;
+    gap: 10px;
+  }
+
+  .brand-area {
+    min-width: auto;
+    gap: 8px;
+  }
+
+  .logo {
+    font-size: 23px;
+  }
+
+  .header .search-wrap {
+    width: auto;
+    flex: 1;
+  }
+
+  .search-box {
+    height: 40px;
+  }
+
+  .search-submit {
+    padding: 0 13px;
+    font-size: 12px;
+  }
+
+  .search-icon {
+    display: none;
+  }
+
+  .search-box input {
+    padding-left: 12px;
+    font-size: 12px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .header-actions .profile-button {
+    display: none;
+  }
+
+  .sidebar {
+    width: 270px;
+    transform: translateX(-105%);
+    z-index: 150;
+    box-shadow: 15px 0 40px rgba(0,0,0,.35);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .overlay.visible {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    background: rgba(0,0,0,.55);
+  }
+
+  .main {
+    margin-left: 0;
+    padding: calc(var(--header) + 17px) 13px 100px;
+  }
+
+  .hero {
+    min-height: 240px;
+    padding: 28px 22px;
+    border-radius: 17px;
+  }
+
+  .hero h1 {
+    font-size: 37px;
+  }
+
+  .hero p {
+    font-size: 13px;
+    max-width: 300px;
+  }
+
+  .hero-visual {
+    right: -35px;
+    width: 125px;
+    height: 125px;
+    font-size: 55px;
+  }
+
+  .category-bar {
+    padding: 21px 0 18px;
+  }
+
+  .section-heading h2 {
+    font-size: 19px;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 16px 11px;
+  }
+
+  .card-info {
+    gap: 8px;
+    padding: 10px 9px;
+  }
+
+  .channel-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-channel {
+    font-size: 10px;
+  }
+
+  .card-buttons {
+    padding: 0 8px 10px;
+    gap: 5px;
+  }
+
+  .card-button {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+
+  .player-section {
+    padding: 12px;
+  }
+
+  .player-top h2 {
+    font-size: 15px;
+  }
+
+  .mobile-bottom {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 120;
+    height: 65px;
+    background: rgba(7,19,33,.97);
+    border-top: 1px solid var(--border);
+    justify-content: space-around;
+    align-items: center;
+    backdrop-filter: blur(15px);
+  }
+
+  .mobile-nav-button {
+    background: transparent;
+    border: none;
+    color: #819db3;
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-weight: 700;
+  }
+
+  .mobile-nav-button span:first-child {
+    font-size: 19px;
+  }
+
+  .mobile-nav-button.active {
+    color: var(--cyan);
+  }
+
+  .footer {
+    margin-top: 35px;
+  }
+}
+
+@media(max-width:380px) {
+  .video-grid {
+    gap: 12px 8px;
+  }
+
+  .card-title {
+    font-size: 11px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .header .search-wrap {
+    max-width: 190px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header class="header">
+
+  <div class="brand-area">
+    <button class="icon-button" id="menuButton"
+      aria-label="Open navigation">☰</button>
+    <a class="logo" href="#" onclick="goHome(event)">
+      YouNuct<span class="logo-dot">.</span>
+    </a>
+  </div>
+
+  <div class="search-wrap">
+    <form class="search-box" id="searchForm">
+      <span class="search-icon">⌕</span>
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search videos, music and more..."
+        autocomplete="off"
+        maxlength="100"
+      >
+      <button class="search-submit" type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="header-actions">
+    <button class="icon-button" id="clearSearch"
+      title="Clear search">⌫</button>
+    <button class="profile-button" title="YouNuct">Y</button>
+  </div>
+
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="nav-label">Discover</div>
+
+  <button class="nav-link active" data-view="home">
+    <span class="nav-icon">⌂</span> Home
+  </button>
+
+  <button class="nav-link" data-view="trending">
+    <span class="nav-icon">♨</span> Trending
+  </button>
+
+  <button class="nav-link" data-view="music">
+    <span class="nav-icon">♫</span> Music
+  </button>
+
+  <button class="nav-link" data-view="football">
+    <span class="nav-icon">⚽</span> Football
+  </button>
+
+  <button class="nav-link" data-view="gaming">
+    <span class="nav-icon">🎮</span> Gaming
+  </button>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="nav-label">Your library</div>
+
+  <button class="nav-link" data-view="history">
+    <span class="nav-icon">◷</span> Watch history
+  </button>
+
+  <button class="nav-link" data-view="favorites">
+    <span class="nav-icon">♡</span> Favourites
+  </button>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="nav-label">Explore</div>
+
+  <button class="nav-link" data-view="technology">
+    <span class="nav-icon">⌘</span> Technology
+  </button>
+
+  <button class="nav-link" data-view="entertainment">
+    <span class="nav-icon">✦</span> Entertainment
+  </button>
+
+  <button class="nav-link" data-view="education">
+    <span class="nav-icon">▤</span> Education
+  </button>
+
+  <div class="sidebar-note">
+    <h3>Welcome to YouNuct</h3>
+    <p>Discover videos, explore creators and enjoy your favourite content in one place.</p>
+  </div>
+
+</aside>
+
+<main class="main" id="main">
+<div class="content">
+
+<section class="hero" id="hero">
+
+  <div class="hero-content">
+    <div class="hero-tag">✦ YOUR VIDEO DESTINATION</div>
+
+    <h1>Discover<br><span>Beyond Limits.</span></h1>
+
+    <p>
+      Explore videos, music, entertainment and creators
+      from across YouTube.
+    </p>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">▶</div>
+
+</section>
+
+<div class="category-bar" id="categoryBar">
+  <button class="category-chip active" data-query="Trending videos">Trending</button>
+  <button class="category-chip" data-query="Music videos">Music</button>
+  <button class="category-chip" data-query="Football highlights">Football</button>
+  <button class="category-chip" data-query="Gaming videos">Gaming</button>
+  <button class="category-chip" data-query="Technology videos">Technology</button>
+  <button class="category-chip" data-query="Entertainment videos">Entertainment</button>
+  <button class="category-chip" data-query="Educational videos">Education</button>
+  <button class="category-chip" data-query="Travel videos">Travel</button>
+</div>
+
+<section class="player-section" id="playerSection">
+
+  <div class="player-top">
+    <h2 id="playerTitle">Now playing</h2>
+    <button class="close-player" id="closePlayer">✕ Close</button>
+  </div>
+
+  <div class="player-frame-wrap">
+    <iframe
+      id="playerFrame"
+      class="player-frame"
+      title="YouNuct video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+  </div>
+
+  <div class="player-details">
+    <p id="playerChannel">Watch videos inside YouNuct.</p>
+
+    <div class="player-controls">
+      <button class="player-action" id="playerFavorite">
+        ♡ Save
+      </button>
+
+      <button class="player-action" id="playerDownload">
+        ↓ Download information
+      </button>
+
+      <button class="player-action" id="shareVideo">
+        ↗ Share
+      </button>
+    </div>
+  </div>
+
+</section>
+
+<div class="section-heading">
+  <div>
+    <h2 id="sectionTitle">Explore videos</h2>
+    <p id="sectionSubtitle">Discover something interesting today.</p>
+  </div>
+
+  <button class="section-action" id="clearResults">
+    Clear results
+  </button>
+</div>
+
+<div class="status" id="status" aria-live="polite">
+  Search for a video or choose a category to begin.
+</div>
+
+<div class="loader" id="loader"></div>
+
+<div class="empty-state" id="emptyState">
+  <div class="empty-icon">⌕</div>
+  <h3 id="emptyTitle">Discover something new</h3>
+  <p id="emptyDescription">
+    Enter a search term to find videos.
+  </p>
+</div>
+
+<div class="video-grid" id="videoGrid"></div>
+
+<footer class="footer">
+
+  <div>
+    <div class="footer-brand">YouNuct.</div>
+    <p>
+      Discover beyond limits.<br>
+      Your video discovery experience.
+    </p>
+  </div>
+
+  <div class="footer-links">
+    <button id="aboutButton">About</button>
+    <button id="privacyButton">Privacy</button>
+    <button id="helpButton">Help</button>
+  </div>
+
+</footer>
+
+</div>
+</main>
+
+<nav class="mobile-bottom">
+
+  <button class="mobile-nav-button active" data-view="home">
+    <span>⌂</span><span>Home</span>
+  </button>
+
+  <button class="mobile-nav-button" data-view="trending">
+    <span>♨</span><span>Explore</span>
+  </button>
+
+  <button class="mobile-nav-button" data-view="history">
+    <span>◷</span><span>History</span>
+  </button>
+
+  <button class="mobile-nav-button" data-view="favorites">
+    <span>♡</span><span>Saved</span>
+  </button>
+
+</nav>
+
+</div>
+
+<script>
+"use strict";
+
+/* =====================================
+   YOUNUCT APPLICATION CONFIGURATION
+===================================== */
+
+const CONFIG = {
+  apiEndpoint: "/api/search",
+  maximumResults: 12,
+  maximumHistory: 50,
+  maximumFavorites: 100,
+  storagePrefix: "younuct_"
+};
+
+/* =====================================
+   DOM ELEMENTS
+===================================== */
+
+const DOM = {
+  searchForm: document.getElementById("searchForm"),
+  searchInput: document.getElementById("searchInput"),
+  videoGrid: document.getElementById("videoGrid"),
+  status: document.getElementById("status"),
+  loader: document.getElementById("loader"),
+  emptyState: document.getElementById("emptyState"),
+  emptyTitle: document.getElementById("emptyTitle"),
+  emptyDescription: document.getElementById("emptyDescription"),
+  sectionTitle: document.getElementById("sectionTitle"),
+  sectionSubtitle: document.getElementById("sectionSubtitle"),
+  playerSection: document.getElementById("playerSection"),
+  playerFrame: document.getElementById("playerFrame"),
+  playerTitle: document.getElementById("playerTitle"),
+  playerChannel: document.getElementById("playerChannel"),
+  playerFavorite: document.getElementById("playerFavorite"),
+  sidebar: document.getElementById("sidebar"),
+  main: document.getElementById("main"),
+  overlay: document.getElementById("overlay"),
+  categoryBar: document.getElementById("categoryBar")
+};
+
+/* =====================================
+   APPLICATION STATE
+===================================== */
+
+const State = {
+  videos: [],
+  currentVideo: null,
+  currentView: "home",
+  currentQuery: "",
+  loading: false,
+  history: loadStorage("history", []),
+  favorites: loadStorage("favorites", [])
+};
+
+/* =====================================
+   STORAGE HELPERS
+===================================== */
+
+function loadStorage(key, fallback) {
+  try {
+    const value = localStorage.getItem(
+      CONFIG.storagePrefix + key
+    );
+
+    if (!value) return fallback;
+
+    const parsed = JSON.parse(value);
+
+    return Array.isArray(parsed) ? parsed : fallback;
+
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function saveStorage(key, value) {
+  try {
+    localStorage.setItem(
+      CONFIG.storagePrefix + key,
+      JSON.stringify(value)
+    );
+  } catch (error) {
+    console.warn("YouNuct storage unavailable.");
+  }
+}
+
+/* =====================================
+   UI HELPERS
+===================================== */
+
+function setStatus(message) {
+  DOM.status.textContent = message;
+}
+
+function setLoading(value) {
+  State.loading = value;
+  DOM.loader.classList.toggle("visible", value);
+}
+
+function showEmpty(title, description) {
+  DOM.emptyTitle.textContent = title;
+  DOM.emptyDescription.textContent = description;
+  DOM.emptyState.classList.add("visible");
+}
+
+function hideEmpty() {
+  DOM.emptyState.classList.remove("visible");
+}
+
+function clearGrid() {
+  DOM.videoGrid.replaceChildren();
+}
+
+function setSection(title, subtitle) {
+  DOM.sectionTitle.textContent = title;
+  DOM.sectionSubtitle.textContent = subtitle;
+}
+
+/* =====================================
+   SEARCH
+===================================== */
+
+DOM.searchForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  searchVideos(DOM.searchInput.value);
+});
+
+async function searchVideos(query) {
+  query = String(query || "").trim();
+
+  if (!query) {
+    setStatus("Enter a search term first.");
+    return;
+  }
+
+  if (query.length > 100) {
+    setStatus("Your search is too long.");
+    return;
+  }
+
+  State.currentQuery = query;
+  State.currentView = "search";
+
+  DOM.searchInput.value = query;
+
+  clearGrid();
+  hideEmpty();
+  setLoading(true);
+
+  setSection("Search results", "Results from YouTube.");
+
+  setStatus("Searching YouTube for: " + query);
+
+  try {
+    const response = await fetch(
+      CONFIG.apiEndpoint + "?q=" + encodeURIComponent(query),
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "YouTube search is unavailable."
+      );
+    }
+
+    if (!Array.isArray(data.items) || data.items.length === 0) {
+      State.videos = [];
+
+      showEmpty(
+        "No videos found",
+        "Try another search term."
+      );
+
+      setStatus("No results found.");
+
+      return;
+    }
+
+    State.videos = data.items
+      .filter(video =>
+        video &&
+        typeof video.id === "string" &&
+        /^[a-zA-Z0-9_-]{11}$/.test(video.id)
+      );
+
+    renderVideos(State.videos);
+
+    setStatus(
+      State.videos.length + " videos found."
+    );
+
+    setSection(
+      "Search results",
+      "Showing videos for " + query
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    showEmpty(
+      "Search unavailable",
+      error.message
+    );
+
+    setStatus(error.message);
+
+  } finally {
+    setLoading(false);
+  }
+}
+
+/* =====================================
+   VIDEO CARD GENERATOR
+===================================== */
+
+function renderVideos(videos) {
+  clearGrid();
+  hideEmpty();
+
+  if (!videos.length) {
+    showEmpty(
+      "No videos available",
+      "Try searching for something else."
+    );
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+
+  videos.forEach(video => {
+    fragment.appendChild(createVideoCard(video));
+  });
+
+  DOM.videoGrid.appendChild(fragment);
+}
+
+function createVideoCard(video) {
+  const card = document.createElement("article");
+  card.className = "video-card";
+
+  const thumbnailWrap = document.createElement("div");
+  thumbnailWrap.className = "thumbnail-wrap";
+
+  const thumbnail = document.createElement("img");
+
+  thumbnail.className = "thumbnail";
+  thumbnail.loading = "lazy";
+  thumbnail.src =
+    video.thumbnail ||
+    "https://i.ytimg.com/vi/" +
+    video.id +
+    "/hqdefault.jpg";
+
+  thumbnail.alt = video.title || "YouTube video";
+
+  const overlay = document.createElement("div");
+  overlay.className = "thumbnail-overlay";
+
+  const play = document.createElement("div");
+  play.className = "play-circle";
+  play.textContent = "▶";
+
+  overlay.appendChild(play);
+
+  thumbnailWrap.append(thumbnail, overlay);
+
+  thumbnailWrap.addEventListener("click", () => {
+    playVideo(video);
+  });
+
+  const info = document.createElement("div");
+  info.className = "card-info";
+
+  const avatar = document.createElement("div");
+  avatar.className = "channel-avatar";
+
+  avatar.textContent =
+    (video.channel || "Y").charAt(0).toUpperCase();
+
+  const text = document.createElement("div");
+  text.className = "card-text";
+
+  const title = document.createElement("h3");
+  title.className = "card-title";
+  title.textContent = video.title || "Untitled video";
+
+  const channel = document.createElement("p");
+  channel.className = "card-channel";
+  channel.textContent = video.channel || "YouTube creator";
+
+  text.append(title, channel);
+
+  const favorite = document.createElement("button");
+  favorite.className = "favorite-button";
+
+  const saved = State.favorites.some(
+    item => item.id === video.id
+  );
+
+  favorite.classList.toggle("saved", saved);
+  favorite.textContent = saved ? "♥" : "♡";
+  favorite.title = "Save to favourites";
+
+  favorite.addEventListener("click", () => {
+    toggleFavorite(video);
+    favorite.classList.toggle(
+      "saved",
+      State.favorites.some(item => item.id === video.id)
+    );
+    favorite.textContent =
+      State.favorites.some(item => item.id === video.id)
+        ? "♥"
+        : "♡";
+  });
+
+  info.append(avatar, text, favorite);
+
+  const actions = document.createElement("div");
+  actions.className = "card-buttons";
+
+  const watch = document.createElement("button");
+  watch.className = "card-button primary";
+  watch.textContent = "▶ Watch";
+
+  watch.addEventListener("click", () => {
+    playVideo(video);
+  });
+
+  const download = document.createElement("button");
+  download.className = "card-button";
+  download.textContent = "↓ Download";
+
+  download.addEventListener("click", showDownloadInfo);
+
+  actions.append(watch, download);
+
+  card.append(thumbnailWrap, info, actions);
+
+  return card;
+}
+
+/* =====================================
+   VIDEO PLAYER
+===================================== */
+
+function playVideo(video) {
+  if (!video || !video.id) return;
+
+  if (!/^[a-zA-Z0-9_-]{11}$/.test(video.id)) {
+    setStatus("Invalid video identifier.");
+    return;
+  }
+
+  State.currentVideo = video;
+
+  DOM.playerTitle.textContent =
+    video.title || "Now playing";
+
+  DOM.playerChannel.textContent =
+    video.channel || "YouTube video";
+
+  DOM.playerFrame.src =
+    "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(video.id) +
+    "?autoplay=1&rel=0";
+
+  DOM.playerSection.classList.add("visible");
+
+  updatePlayerFavorite();
+
+  addToHistory(video);
+
+  DOM.playerSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+function closePlayer() {
+  DOM.playerFrame.src = "";
+  DOM.playerSection.classList.remove("visible");
+  State.currentVideo = null;
+}
+
+document.getElementById("closePlayer")
+  .addEventListener("click", closePlayer);
+
+/* =====================================
+   WATCH HISTORY
+===================================== */
+
+function addToHistory(video) {
+  State.history = State.history.filter(
+    item => item.id !== video.id
+  );
+
+  State.history.unshift({
+    ...video,
+    watchedAt: Date.now()
+  });
+
+  State.history = State.history.slice(
+    0,
+    CONFIG.maximumHistory
+  );
+
+  saveStorage("history", State.history);
+}
+
+function renderHistory() {
+  setSection(
+    "Watch history",
+    "Videos you have opened recently."
+  );
+
+  renderVideos(State.history);
+
+  setStatus(
+    State.history.length +
+    " videos in your watch history."
+  );
+
+  if (!State.history.length) {
+    showEmpty(
+      "Your history is empty",
+      "Videos you watch will appear here."
+    );
+  }
+}
+
+/* =====================================
+   FAVORITES
+===================================== */
+
+function toggleFavorite(video) {
+  const exists = State.favorites.some(
+    item => item.id === video.id
+  );
+
+  if (exists) {
+    State.favorites = State.favorites.filter(
+      item => item.id !== video.id
+    );
+
+    setStatus("Removed from favourites.");
+
+  } else {
+    if (State.favorites.length >= CONFIG.maximumFavorites) {
+      setStatus("Your favourites list is full.");
+      return;
+    }
+
+    State.favorites.unshift(video);
+
+    setStatus("Added to favourites.");
+  }
+
+  saveStorage("favorites", State.favorites);
+
+  updatePlayerFavorite();
+}
+
+function renderFavorites() {
+  setSection(
+    "Your favourites",
+    "Your personally saved videos."
+  );
+
+  renderVideos(State.favorites);
+
+  setStatus(
+    State.favorites.length +
+    " saved videos."
+  );
+
+  if (!State.favorites.length) {
+    showEmpty(
+      "No favourites yet",
+      "Save videos to find them here."
+    );
+  }
+}
+
+function updatePlayerFavorite() {
+  if (!State.currentVideo) return;
+
+  const saved = State.favorites.some(
+    item => item.id === State.currentVideo.id
+  );
+
+  DOM.playerFavorite.textContent =
+    saved ? "♥ Saved" : "♡ Save";
+}
+
+DOM.playerFavorite.addEventListener("click", () => {
+  if (State.currentVideo) {
+    toggleFavorite(State.currentVideo);
+  }
+});
+
+/* =====================================
+   DOWNLOAD INFORMATION
+===================================== */
+
+function showDownloadInfo() {
+  alert(
+    "YouNuct supports watching videos through the official YouTube player. Downloads must use YouTube's official download options where available, or be authorized by the content owner."
+  );
+}
+
+document.getElementById("playerDownload")
+  .addEventListener("click", showDownloadInfo);
+
+/* =====================================
+   VIDEO SHARING
+===================================== */
+
+document.getElementById("shareVideo")
+  .addEventListener("click", async () => {
+    if (!State.currentVideo) return;
+
+    const url =
+      "https://www.youtube.com/watch?v=" +
+      State.currentVideo.id;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: State.currentVideo.title,
+          url
+        });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+        setStatus("Video link copied.");
+      } else {
+        window.prompt("Copy video link:", url);
+      }
+
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        setStatus("Unable to share this video.");
+      }
+    }
+  });
+
+/* =====================================
+   CATEGORY SEARCH
+===================================== */
+
+DOM.categoryBar.addEventListener("click", event => {
+  const button = event.target.closest(".category-chip");
+
+  if (!button) return;
+
+  document.querySelectorAll(".category-chip")
+    .forEach(item => item.classList.remove("active"));
+
+  button.classList.add("active");
+
+  searchVideos(button.dataset.query);
+});
+
+/* =====================================
+   SIDEBAR NAVIGATION
+===================================== */
+
+function setActiveNavigation(view) {
+  document.querySelectorAll("[data-view]")
+    .forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.view === view
+      );
+    });
+}
+
+async function navigate(view) {
+  State.currentView = view;
+
+  setActiveNavigation(view);
+  closeSidebar();
+
+  closePlayer();
+
+  switch (view) {
+
+    case "home":
+      setSection(
+        "Explore videos",
+        "Discover something interesting today."
+      );
+
+      clearGrid();
+
+      showEmpty(
+        "Welcome to YouNuct",
+        "Search for videos or select a category above."
+      );
+
+      setStatus("Ready to explore.");
+
+      break;
+
+    case "trending":
+      await searchVideos("Trending videos");
+      break;
+
+    case "music":
+      await searchVideos("Music videos");
+      break;
+
+    case "football":
+      await searchVideos("Football highlights");
+      break;
+
+    case "gaming":
+      await searchVideos("Gaming videos");
+      break;
+
+    case "technology":
+      await searchVideos("Technology videos");
+      break;
+
+    case "entertainment":
+      await searchVideos("Entertainment videos");
+      break;
+
+    case "education":
+      await searchVideos("Educational videos");
+      break;
+
+    case "history":
+      renderHistory();
+      break;
+
+    case "favorites":
+      renderFavorites();
+      break;
+
+    default:
+      setStatus("Choose a category.");
+  }
+}
+
+document.querySelectorAll("[data-view]")
+  .forEach(button => {
+    button.addEventListener("click", () => {
+      navigate(button.dataset.view);
+    });
+  });
+
+/* =====================================
+   SIDEBAR CONTROLS
+===================================== */
+
+function openSidebar() {
+  DOM.sidebar.classList.add("open");
+  DOM.overlay.classList.add("visible");
+}
+
+function closeSidebar() {
+  DOM.sidebar.classList.remove("open");
+  DOM.overlay.classList.remove("visible");
+}
+
+document.getElementById("menuButton")
+  .addEventListener("click", () => {
+    if (DOM.sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+DOM.overlay.addEventListener("click", closeSidebar);
+
+/* =====================================
+   CLEAR SEARCH
+===================================== */
+
+document.getElementById("clearSearch")
+  .addEventListener("click", () => {
+    DOM.searchInput.value = "";
+    DOM.searchInput.focus();
+  });
+
+document.getElementById("clearResults")
+  .addEventListener("click", () => {
+    DOM.searchInput.value = "";
+    State.videos = [];
+
+    clearGrid();
+    showEmpty(
+      "Ready for something new?",
+      "Search for a video to get started."
+    );
+
+    setStatus("Results cleared.");
+  });
+
+/* =====================================
+   HOME NAVIGATION
+===================================== */
+
+function goHome(event) {
+  if (event) event.preventDefault();
+  navigate("home");
+}
+
+/* =====================================
+   FOOTER INFORMATION
+===================================== */
+
+document.getElementById("aboutButton")
+  .addEventListener("click", () => {
+    alert(
+      "YouNuct is an independent video discovery interface using the YouTube Data API and official YouTube player."
+    );
+  });
+
+document.getElementById("privacyButton")
+  .addEventListener("click", () => {
+    alert(
+      "YouNuct stores favourites and watch history locally in your browser. YouTube content is provided through YouTube services."
+    );
+  });
+
+document.getElementById("helpButton")
+  .addEventListener("click", () => {
+    alert(
+      "Use the search bar or category buttons to discover videos. Select Watch to play a video inside YouNuct."
+    );
+  });
+
+/* =====================================
+   APPLICATION INITIALIZATION
+===================================== */
+
+function initializeApp() {
+  setSection(
+    "Explore videos",
+    "Discover something interesting today."
+  );
+
+  showEmpty(
+    "Welcome to YouNuct",
+    "Search for videos or choose a category to explore."
+  );
+
+  setStatus(
+    "YouNuct is ready. Search to discover videos."
+  );
+
+  updatePlayerFavorite();
+}
+
+initializeApp();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+
+{
+  "name": "younuct",
+  "version": "1.0.0",
+  "private": true,
+  "description": "YouNuct video discovery platform",
+  "scripts": {
+    "start": "node -e \"console.log('YouNuct is deployed on Vercel')\""
+  }
+}
